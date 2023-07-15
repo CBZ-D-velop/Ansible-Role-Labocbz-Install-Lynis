@@ -1,0 +1,34 @@
+---
+# Don't forget to keep this file updated
+# molecule/<scenario>/verify.yml
+- name: "Verify"
+  hosts: "all"
+  gather_facts: false
+  tasks:
+
+    - name: "Check Lynis path installation"
+      register: lynis_folder
+      failed_when: not lynis_folder.stat.exists
+      ansible.builtin.stat:
+        path: "{{ inv_lynis_install_path }}"
+
+    #- name: "Create a local Lynis report and check status code"
+    #  register: lynis_create_report_status
+    #  failed_when: lynis_create_report_status.rc != 0
+    #  changed_when: lynis_create_report_status.rc != 0
+    #  ansible.builtin.shell: "set -o pipefail | lynis audit system --quick --pentest 2>&1"
+
+    - name: "Verify cron and email behaviors"
+      when: inv_lynis_create_cron_job
+      block:
+      - name: "Check if a cron file exist"
+        register: cron_file
+        failed_when: not cron_file.stat.exists
+        ansible.builtin.stat:
+          path: "/etc/cron.d/ansible_lynis_send_reports"
+
+      #- name: "Create a custom email Lynis report and check status code"
+      #  register: lynis_create_report_status
+      #  failed_when: lynis_create_report_status.rc != 0
+      #  changed_when: lynis_create_report_status.rc != 0
+      #  ansible.builtin.shell: "set -o pipefail | lynis audit system --quick --pentest 2>&1  | ansi2html | mail -a 'MIME-Version: 1.0' -a 'Content-Type: text/html; charset=iso-8859-1' -s \"Lynis reports of $(hostname -f)\" {{ inv_lynis_report_email_address }}"
