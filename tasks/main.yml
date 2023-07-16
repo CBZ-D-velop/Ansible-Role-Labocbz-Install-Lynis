@@ -3,19 +3,9 @@
   ansible.builtin.package:
     update_cache: yes
     name:
-      - git
+      - "git"
 
-- name: "Install others packages"
-  when: lynis_create_cron_job
-  ansible.builtin.package:
-    update_cache: yes
-    name:
-      - cron
-      - mailutils
-      - colorized-logs
-      - kbtin
-
-- name: "Install Lynis by clone its repository"
+- name: "Install Lynis by clone the repository"
   ansible.builtin.git:
     repo: "https://github.com/CISOfy/lynis"
     dest: "{{ lynis_install_path }}"
@@ -27,11 +17,21 @@
     state: link
     owner: "root"
     group: "root"
-    mode: 0700
+    mode: "0700"
 
 - name: "Send automatics report with cron"
   when: lynis_create_cron_job
   block:
+    - name: "Install others packages"
+      when: lynis_create_cron_job | default(false)
+      ansible.builtin.package:
+        update_cache: yes
+        name:
+          - "cron"
+          - "mailutils"
+          - "colorized-logs"
+          - "kbtin"
+
     - name: "Check if a cron file exist"
       register: cron_file
       ansible.builtin.stat:

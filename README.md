@@ -21,6 +21,16 @@
 
 An Ansible role to install and configure Lynis on your host.
 
+The Ansible role installs Lynis, a system analysis tool, on the target system. The role utilizes Git to clone the Lynis repository, ensuring that updates are available. Administrators may need to rerun the role periodically to obtain the latest updates (an enhancement could be implemented using a cron job).
+
+Additionally, the role provides the ability to define a cron job for running system analyses using Lynis. This cron job can be customized by specifying the desired weekday, minute, and hour for execution. The analysis results are then sent via email to the specified address.
+
+Please note that the presence of an email server is required for sending the analysis reports. The role does not install an email server but relies on an existing one to handle the report delivery.
+
+By deploying Lynis with this role, administrators can conduct routine system analyses, benefiting from the insights and security recommendations provided by the tool. The option to schedule these analyses via a cron job allows for automated and regular assessments, ensuring continuous monitoring and improvement of system security.
+
+In summary, the Lynis role offers a comprehensive solution for system analysis, incorporating regular updates, automated cron job scheduling, and analysis result email delivery. By leveraging this role, administrators can enhance their system's security posture and stay informed about potential vulnerabilities and security improvements.
+
 ## Folder structure
 
 By default Ansible will look in each directory within a role for a main.yml file for relevant content (also man.yml and main):
