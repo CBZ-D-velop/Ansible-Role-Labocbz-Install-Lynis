@@ -1,7 +1,7 @@
 ---
 - name: "Install packages"
   ansible.builtin.package:
-    update_cache: false
+    update_cache: true
     name:
       - "git"
 
@@ -25,7 +25,7 @@
     - name: "Install others packages"
       when: lynis_create_cron_job | default(false)
       ansible.builtin.package:
-        update_cache: false
+        update_cache: true
         name:
           - "cron"
           - "mailutils"
