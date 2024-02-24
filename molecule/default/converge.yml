@@ -1,23 +1,17 @@
 ---
 - name: "Converge"
-  hosts: "all"
+  hosts: "local"
   tasks:
-    # replace these tasks with whatever you find suitable to test
-    - name: "Copy something to test use of synchronize module"
-      ansible.builtin.copy:
-        src: "/etc/hosts"
-        dest: "/tmp/hosts-from-controller"
-        mode: 0700
 
     - name: "Include labocbz.install_lynis"
       tags:
         - "labocbz.install_lynis"
       vars:
-        lynis_create_cron_job: "{{ inv_lynis_create_cron_job }}"
-        lynis_cron_job_weekday: "{{ inv_lynis_create_cron_job }}"
-        lynis_cron_job_minute: "{{ inv_lynis_cron_job_minute }}"
-        lynis_cron_job_hour: "{{ inv_lynis_cron_job_hour }}"
-        lynis_report_email_address: "{{ inv_lynis_create_cron_job }}"
-        lynis_install_path: "{{ inv_lynis_install_path }}"
+        install_lynis__create_cron_job: "{{ inv_install_lynis__create_cron_job }}"
+        install_lynis__cron_job_weekday: "{{ inv_install_lynis__create_cron_job }}"
+        install_lynis__cron_job_minute: "{{ inv_install_lynis__cron_job_minute }}"
+        install_lynis__cron_job_hour: "{{ inv_install_lynis__cron_job_hour }}"
+        install_lynis__report_email_address: "{{ inv_install_lynis__create_cron_job }}"
+        install_lynis__install_path: "{{ inv_install_lynis__install_path }}"
       ansible.builtin.include_role:
         name: "labocbz.install_lynis"

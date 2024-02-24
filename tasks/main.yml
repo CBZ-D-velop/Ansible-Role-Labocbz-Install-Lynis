@@ -8,11 +8,11 @@
 - name: "Install Lynis by clone the repository"
   ansible.builtin.git:
     repo: "https://github.com/CISOfy/lynis"
-    dest: "{{ lynis_install_path }}"
+    dest: "{{ install_lynis__install_path }}"
 
 - name: "Create a sym link to the bin"
   ansible.builtin.file:
-    src: "{{ lynis_install_path }}/lynis"
+    src: "{{ install_lynis__install_path }}/lynis"
     dest: "/bin/lynis"
     state: link
     owner: "root"
@@ -20,10 +20,10 @@
     mode: "0700"
 
 - name: "Send automatics report with cron"
-  when: lynis_create_cron_job
+  when: install_lynis__create_cron_job
   block:
     - name: "Install others packages"
-      when: lynis_create_cron_job | default(false)
+      when: install_lynis__create_cron_job | default(false)
       ansible.builtin.package:
         update_cache: true
         name:
@@ -35,15 +35,15 @@
     - name: "Check if a cron file exist"
       register: cron_file
       ansible.builtin.stat:
-        path: "/etc/cron.d/ansible_lynis_and_send_report"
+        path: "/etc/cron.d/ansible_install_lynis__and_send_report"
 
     - name: "Configure automatic reports with cron"
       when: not cron_file.stat.exists
       ansible.builtin.cron:
         name: "ansible - send Lynis email reports"
-        weekday: "{{ lynis_cron_job_weekday }}"
-        minute: "{{ lynis_cron_job_minute }}"
-        hour: "{{ lynis_cron_job_hour }}"
+        weekday: "{{ install_lynis__cron_job_weekday }}"
+        minute: "{{ install_lynis__cron_job_minute }}"
+        hour: "{{ install_lynis__cron_job_hour }}"
         user: "root"
-        job: "lynis audit system --quick --pentest 2>&1  | ansi2html | mail -a 'MIME-Version: 1.0' -a 'Content-Type: text/html; charset=iso-8859-1' -s \"Lynis reports of $(hostname -f)\" {{ lynis_report_email_address }}"
-        cron_file: "ansible_lynis_send_reports"
+        job: "lynis audit system --quick --pentest 2>&1  | ansi2html | mail -a 'MIME-Version: 1.0' -a 'Content-Type: text/html; charset=iso-8859-1' -s \"Lynis reports of $(hostname -f)\" {{ install_lynis__report_email_address }}"
+        cron_file: "ansible_install_lynis__send_reports"
