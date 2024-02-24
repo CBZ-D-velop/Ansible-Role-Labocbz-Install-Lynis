@@ -114,14 +114,14 @@ Some vars a required to run this role:
 
 ```YAML
 ---
-lynis_create_cron_job: true
-lynis_cron_job_weekday: "*"
-lynis_cron_job_minute: "6"
-lynis_cron_job_hour: "6"
+install_lynis__create_cron_job: true
+install_lynis__cron_job_weekday: "*"
+install_lynis__cron_job_minute: "6"
+install_lynis__cron_job_hour: "6"
 
-lynis_report_email_address: "your.address@domain.tld"
+install_lynis__report_email_address: "your.address@domain.tld"
 
-lynis_install_path: "/usr/local/lynis"
+install_lynis__install_path: "/usr/local/lynis"
 
 ```
 
@@ -134,14 +134,14 @@ In order to surchage vars, you have multiples possibilities but for mains cases 
 ```YAML
 # From inventory
 ---
-inv_lynis_create_cron_job: true
-inv_lynis_cron_job_weekday: "*"
-inv_lynis_cron_job_minute: "6"
-inv_lynis_cron_job_hour: "6"
+inv_install_lynis__create_cron_job: true
+inv_install_lynis__cron_job_weekday: "*"
+inv_install_lynis__cron_job_minute: "6"
+inv_install_lynis__cron_job_hour: "6"
 
-inv_lynis_report_email_address: "your.address@domain.tld"
+inv_install_lynis__report_email_address: "your.address@domain.tld"
 
-inv_lynis_install_path: "/usr/local/lynis"
+inv_install_lynis__install_path: "/usr/local/lynis"
 
 ```
 
@@ -160,12 +160,12 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
     tags:
     - "labocbz.install_lynis"
     vars:
-    lynis_create_cron_job: "{{ inv_lynis_create_cron_job }}"
-    lynis_cron_job_weekday: "{{ inv_lynis_create_cron_job }}"
-    lynis_cron_job_minute: "{{ inv_lynis_cron_job_minute }}"
-    lynis_cron_job_hour: "{{ inv_lynis_cron_job_hour }}"
-    lynis_report_email_address: "{{ inv_lynis_create_cron_job }}"
-    lynis_install_path: "{{ inv_lynis_install_path }}"
+    install_lynis__create_cron_job: "{{ inv_install_lynis__create_cron_job }}"
+    install_lynis__cron_job_weekday: "{{ inv_install_lynis__create_cron_job }}"
+    install_lynis__cron_job_minute: "{{ inv_install_lynis__cron_job_minute }}"
+    install_lynis__cron_job_hour: "{{ inv_install_lynis__cron_job_hour }}"
+    install_lynis__report_email_address: "{{ inv_install_lynis__create_cron_job }}"
+    install_lynis__install_path: "{{ inv_install_lynis__install_path }}"
     ansible.builtin.include_role:
     name: "labocbz.install_lynis"
 ```
@@ -184,6 +184,11 @@ Here you can put your change to keep a trace of your work and decisions.
 * Molecule now use remote Docker image by Lord Robin Crombez
 * Molecule now use custom Docker image in CI/CD by env vars
 * New CICD with needs and optimization
+
+### 2024-02-24: Fix and CI
+
+* Added support for new CI base
+* Edit all vars with __
 
 ## Authors
 

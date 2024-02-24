@@ -1,9 +1,9 @@
 ---
-lynis_create_cron_job: true
-lynis_cron_job_weekday: "*"
-lynis_cron_job_minute: "6"
-lynis_cron_job_hour: "6"
+install_lynis__create_cron_job: true
+install_lynis__cron_job_weekday: "*"
+install_lynis__cron_job_minute: "6"
+install_lynis__cron_job_hour: "6"
 
-lynis_report_email_address: "your.address@domain.tld"
+install_lynis__report_email_address: "your.address@domain.tld"
 
-lynis_install_path: "/usr/local/lynis"
+install_lynis__install_path: "/usr/local/lynis"
