@@ -2,7 +2,8 @@
 - name: "Install packages"
   retries: 3
   delay: 10
-  until: "output is success"
+  until: output is success
+  register: output
   ansible.builtin.package:
     update_cache: true
     name:
@@ -28,9 +29,10 @@
     - name: "Install others packages"
       when: install_lynis__create_cron_job | default(false)
       retries: 3
-  delay: 10
-  until: "output is success"
-  ansible.builtin.package:
+      delay: 10
+      until: output is success
+      register: output
+      ansible.builtin.package:
         update_cache: true
         name:
           - "cron"
