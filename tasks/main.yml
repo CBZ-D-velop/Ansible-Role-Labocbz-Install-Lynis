@@ -10,6 +10,8 @@
       - "git"
 
 - name: "Install Lynis by clone the repository"
+  retries: 3
+  until: output is success
   ansible.builtin.git:
     repo: "https://github.com/CISOfy/lynis"
     dest: "{{ install_lynis__install_path }}"
